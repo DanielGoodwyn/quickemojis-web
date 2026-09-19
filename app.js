@@ -212,6 +212,13 @@ function randomizePage2() {
   speak(randomItem.name);
 }
 
+// Ensure circle doesn't get lost on window resize or orientation change
+window.addEventListener('resize', () => {
+  if (isPage2Active) {
+    randomizePage2();
+  }
+});
+
 randomCircle.addEventListener('click', (e) => {
   e.stopPropagation(); // prevent swipe inference
   randomizePage2();
