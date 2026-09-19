@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Quick Emojis</title>
+  <meta name="description" content="A fast, scrubbable list of all emojis with text-to-speech functionality.">
+  <link rel="icon" href="quick-emojis-icon.png">
+  <link rel="apple-touch-icon" href="quick-emojis-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app-container">
+    
+    <!-- Page 1: Grid View -->
+    <div id="page1" class="page active">
+      <div id="scrubber-area">
+        <div id="grid-container">
+          <div id="emoji-grid"></div>
+        </div>
+      </div>
+      <div id="toast" class="hidden">
+        <div id="toast-emoji"></div>
+      </div>
+    </div>
+
+    <!-- Page 2: Random View -->
+    <div id="page2" class="page">
+      <div id="random-circle">
+        <span id="random-emoji"></span>
+      </div>
+    </div>
+
+  </div>
+  
+  <script src="emojis.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

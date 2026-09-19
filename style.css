@@ -1,0 +1,147 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+  font-family: 'Inter', sans-serif;
+  touch-action: none; /* Prevent default pull-to-refresh and swipe nav */
+}
+
+#app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* Page 1 (Grid) Default State */
+#page1 {
+  transform: translateX(0%);
+}
+
+/* Page 2 (Random) Default State (Off-screen Right) */
+#page2 {
+  transform: translateX(100%);
+  background-color: #ff0055; /* Will be randomized */
+}
+
+/* When Page 2 is active */
+body.page2-active #page1 {
+  transform: translateX(-100%);
+}
+body.page2-active #page2 {
+  transform: translateX(0%);
+}
+
+/* Page 1 Specifics */
+#scrubber-area {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: #000;
+  /* Ensure the scrubber area receives touch events everywhere */
+}
+
+#grid-container {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Hide scrollbar for cleaner look */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+#grid-container::-webkit-scrollbar {
+  display: none;
+}
+
+#emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 20px;
+  justify-items: center;
+}
+
+.emoji-item {
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s;
+}
+
+.emoji-item:active {
+  transform: scale(0.8);
+}
+
+/* Toast */
+#toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 40px;
+  border-radius: 32px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#toast-emoji {
+  font-size: 100px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+
+/* Page 2 Specifics */
+#random-circle {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+  user-select: none;
+}
+
+#random-emoji {
+  font-size: 10px; /* Base size, will be scaled inline */
+  line-height: 1;
+  pointer-events: none; /* Let taps pass to circle */
+}
