@@ -23,6 +23,10 @@ function initGrid() {
     // Tap event
     el.addEventListener('click', (e) => {
       e.stopPropagation(); // prevent swipe logic if needed
+      
+      // Copy to clipboard
+      navigator.clipboard.writeText(item.emoji).catch(err => console.error('Failed to copy', err));
+      
       showToast(item.emoji);
       speak(item.name);
     });
@@ -102,21 +106,17 @@ window.addEventListener('mouseup', () => {
 
 
 // Swipe Gestures
-let touchStartX = 0;
-let touchEndX = 0;
+let swipeStartX = 0;
+let swipeEndX = 0;
 
-document.addEventListener('touchstart', e => {
-  touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
+function handleSwipeStart(x) {
+  swipeStartX = x;
+}
 
-document.addEventListener('touchend', e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-}, { passive: true });
-
-function handleSwipe() {
-  const SWIPE_THRESHOLD = 50;
-  if (touchEndX < touchStartX - SWIPE_THRESHOLD) {
+function handleSwipeEnd(x) {
+  swipeEndX = x;
+  const SWIPE_THRESHOLD = window.innerWidth * 0.1;
+  if (swipeEndX < swipeStartX - SWIPE_THRESHOLD) {
     // Swipe Left -> Go to Page 2
     if (!isPage2Active) {
       document.body.classList.add('page2-active');
@@ -124,7 +124,7 @@ function handleSwipe() {
       randomizePage2();
     }
   }
-  if (touchEndX > touchStartX + SWIPE_THRESHOLD) {
+  if (swipeEndX > swipeStartX + SWIPE_THRESHOLD) {
     // Swipe Right -> Go to Page 1
     if (isPage2Active) {
       document.body.classList.remove('page2-active');
@@ -133,6 +133,28 @@ function handleSwipe() {
     }
   }
 }
+
+// Touch events for swipe
+document.addEventListener('touchstart', e => {
+  handleSwipeStart(e.changedTouches[0].screenX);
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  handleSwipeEnd(e.changedTouches[0].screenX);
+}, { passive: true });
+
+// Mouse events for swipe
+let isSwipeMouseDown = false;
+document.addEventListener('mousedown', e => {
+  isSwipeMouseDown = true;
+  handleSwipeStart(e.screenX);
+});
+document.addEventListener('mouseup', e => {
+  if (isSwipeMouseDown) {
+    handleSwipeEnd(e.screenX);
+    isSwipeMouseDown = false;
+  }
+});
 
 // Keyboard navigation for desktop testing
 document.addEventListener('keydown', (e) => {

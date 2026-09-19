@@ -60,13 +60,13 @@ body.page2-active #page2 {
 }
 
 #grid-container {
-  width: 100%;
+  width: max-content;
   height: 100%;
+  margin: 0 auto;
   background-color: #fff;
   border-radius: 24px;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Hide scrollbar for cleaner look */
   scrollbar-width: none;
   -ms-overflow-style: none;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -79,17 +79,17 @@ body.page2-active #page2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  padding: 20px;
-  justify-items: center;
+  padding: 10px;
 }
 
 .emoji-item {
   font-size: 48px;
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  aspect-ratio: 1 / 1;
   cursor: pointer;
   user-select: none;
   transition: transform 0.1s;
