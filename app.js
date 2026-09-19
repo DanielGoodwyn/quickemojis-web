@@ -221,6 +221,11 @@ window.addEventListener('resize', () => {
 
 randomCircle.addEventListener('click', (e) => {
   e.stopPropagation(); // prevent swipe inference
+  const currentEmoji = randomEmojiEl.textContent;
+  if (currentEmoji) {
+    navigator.clipboard.writeText(currentEmoji).catch(err => console.error('Failed to copy', err));
+    showToast(currentEmoji);
+  }
   randomizePage2();
 });
 
